@@ -3,57 +3,62 @@ package principal;
 import java.util.Scanner;
 
 public class Main {
-
     public static void main(String[] args) {
-
         Scanner scan = new Scanner(System.in);
+        SistemaUsuarios sistema = new SistemaUsuarios();
 
-        Usuario usuario = new Usuario();
+        int opcion = 0;
 
-        int opcion;
-
-        do {
-
-            System.out.println("1 - Registro");
-            System.out.println("2 - Login");
-            System.out.println("0 - Salir");
+        while (opcion != 3) {
+            System.out.println("---- MENU ----");
+            System.out.println("1 - Login");
+            System.out.println("2 - Registro");
+            System.out.println("3 - Salir");
+            System.out.print("Seleccione una opcion: ");
 
             opcion = scan.nextInt();
             scan.nextLine();
 
             if (opcion == 1) {
+                System.out.print("Email: ");
+                String email = scan.nextLine();
 
-                System.out.println("Ingrese email:");
-                usuario.email = scan.nextLine();
+                System.out.print("Contrasena: ");
+                String contrasena = scan.nextLine();
 
-                System.out.println("Ingrese contraseña:");
-                usuario.contrasena = scan.nextLine();
+                sistema.login(email, contrasena);
+            }
 
-                System.out.println("Usuario registrado");
+            else if (opcion == 2) {
+                System.out.print("Nombre: ");
+                String nombre = scan.nextLine();
 
-            } else if (opcion == 2) {
+                System.out.print("Email: ");
+                String email = scan.nextLine();
 
-                String emailIngresado;
-                String contrasenaIngresada;
+                System.out.print("Contrasena: ");
+                String contrasena = scan.nextLine();
 
-                System.out.println("Ingrese email:");
-                emailIngresado = scan.nextLine();
+                System.out.println("Tipo de usuario:");
+                System.out.println("1 - Admin");
+                System.out.println("2 - Tester");
+                int tipo = scan.nextInt();
+                scan.nextLine();
 
-                System.out.println("Ingrese contraseña:");
-                contrasenaIngresada = scan.nextLine();
-
-                if (emailIngresado.equals(usuario.email)
-                        && contrasenaIngresada.equals(usuario.contrasena)) {
-
-                    System.out.println("Acceso permitido");
-
+                if (tipo == 1) {
+                    sistema.registrarUsuario(new Admin(nombre, email, contrasena));
                 } else {
-
-                    System.out.println("Acceso denegado");
+                    sistema.registrarUsuario(new Tester(nombre, email, contrasena));
                 }
             }
 
-        } while (opcion != 0);
+            else if (opcion == 3) {
+                System.out.println("Saliendo...");
+            }
 
+            else {
+                System.out.println("Opcion incorrecta.");
+            }
+        }
     }
 }
